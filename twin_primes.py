@@ -106,14 +106,15 @@ num_twin_primes = [count_twin_primes(primes[i:i+chilliad]) for i in range(0,belo
 #print num_twin_primes
 
 
-chilliad = 10
+# count number of primes across segments that increase exponentially,
 base = 10
-num_steps = int(round(math.log(below,10)))+1
+num_steps = int(round(math.log(below,base)))+1
 
 print 'primes: '
-num_primes_aggr = [count_primes_2(primes[:chilliad**i]) for i in range(1,num_steps)]
+num_primes_aggr = [count_primes_2(primes[:base**i]) for i in range(1,num_steps)]
 print num_primes_aggr
 
+# compute ratio between number of primes and segment size
 def ratio(pair):
     return pair[0] / float(pair[1])
 
@@ -121,15 +122,21 @@ belows = [base**i for i in range(1,num_steps)]
 ratios = map(lambda pair: ratio(pair), zip(num_primes_aggr,belows))
 print ratios
 
+# compute inverse of logarithm
 logs = [1 / round(math.log(i),2) for i in belows]
 print logs
 
+# same thing for twin primes:
+# - number of primes in segments with exponentially increasing size
+# - ration between number of twin primes and segment size
+# - compare ratio with inverse of log
 print 'twin primes: '
-num_twin_primes_aggr = [count_twin_primes(primes[:chilliad**i]) for i in range(1,num_steps)]
+num_twin_primes_aggr = [count_twin_primes(primes[:base**i]) for i in range(1,num_steps)]
 print num_twin_primes_aggr
 twin_ratios = map(lambda pair: ratio(pair), zip(num_twin_primes_aggr,belows))
 print twin_ratios
 
-twin_logs = [1 / round(math.log(i,1.1),2) for i in belows]
+twin_base = 1.1
+twin_logs = [1 / round(math.log(i,twin_base),2) for i in belows]
 print twin_logs
 
